@@ -1,0 +1,23 @@
+formatter: "markdown table"
+
+content: |-
+  {{ .Header }}
+  {{ .Requirements }}
+  {{ .Providers }}
+  {{ .Inputs }}
+  {{ .Modules }}
+  {{ .Resources }}
+  {{ .Outputs }}
+  {{ .Footer }}
+
+output:
+  file: ../README.md
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
+
+recursive:
+  enabled: true
+  path: /modules
