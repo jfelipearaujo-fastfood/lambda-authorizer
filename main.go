@@ -82,6 +82,10 @@ func handleRequest(ctx context.Context, request events.APIGatewayCustomAuthorize
 	tokenString := request.Headers["authorization"]
 
 	if tokenString == "" {
+		tokenString = request.Headers["Authorization"]
+	}
+
+	if tokenString == "" {
 		slog.Error("no token found in request")
 		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized") // Return a 401 Unauthorized response
 	}
