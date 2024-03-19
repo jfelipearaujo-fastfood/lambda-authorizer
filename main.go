@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	_ "embed"
+	"errors"
 	"fmt"
 	"os"
 
@@ -56,37 +57,48 @@ func validateToken(tokenString string) (bool, error) {
 	return false, fmt.Errorf("invalid token")
 }
 
-func handleRequest(ctx context.Context, request events.APIGatewayCustomAuthorizerRequestTypeRequest) (events.APIGatewayV2CustomAuthorizerSimpleResponse, error) {
+func generatePolicy(principalId, effect, resource string) events.APIGatewayCustomAuthorizerResponse {
+	authResponse := events.APIGatewayCustomAuthorizerResponse{PrincipalID: principalId}
+
+	if effect != "" && resource != "" {
+		authResponse.PolicyDocument = events.APIGatewayCustomAuthorizerPolicy{
+			Version: "2012-10-17",
+			Statement: []events.IAMPolicyStatement{
+				{
+					Action:   []string{"execute-api:Invoke"},
+					Effect:   effect,
+					Resource: []string{resource},
+				},
+			},
+		}
+	}
+
+	return authResponse
+}
+
+func handleRequest(ctx context.Context, request events.APIGatewayCustomAuthorizerRequest) (events.APIGatewayCustomAuthorizerResponse, error) {
 	slog.Info("validating token")
 
-	tokenString := request.Headers["authorization"]
+	tokenString := request.AuthorizationToken
 
 	if tokenString == "" {
 		slog.Error("no token found in request")
-		return events.APIGatewayV2CustomAuthorizerSimpleResponse{
-			IsAuthorized: false,
-		}, nil
+		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized") // Return a 401 Unauthorized response
 	}
 
 	isValid, err := validateToken(tokenString)
 	if err != nil {
 		slog.Error("error validating token: %v", err)
-		return events.APIGatewayV2CustomAuthorizerSimpleResponse{
-			IsAuthorized: false,
-		}, nil
+		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized") // Return a 401 Unauthorized response
 	}
 
 	if isValid {
 		slog.Info("token is valid")
-		return events.APIGatewayV2CustomAuthorizerSimpleResponse{
-			IsAuthorized: true,
-		}, nil
+		return generatePolicy("user", "Allow", request.MethodArn), nil
 	}
 
 	slog.Error("token is not valid")
-	return events.APIGatewayV2CustomAuthorizerSimpleResponse{
-		IsAuthorized: false,
-	}, nil
+	return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized") // Return a 401 Unauthorized response
 }
 
 func main() {
