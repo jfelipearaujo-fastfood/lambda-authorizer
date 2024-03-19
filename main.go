@@ -76,10 +76,10 @@ func generatePolicy(principalId, effect, resource string) events.APIGatewayCusto
 	return authResponse
 }
 
-func handleRequest(ctx context.Context, request events.APIGatewayCustomAuthorizerRequest) (events.APIGatewayCustomAuthorizerResponse, error) {
+func handleRequest(ctx context.Context, request events.APIGatewayCustomAuthorizerRequestTypeRequest) (events.APIGatewayCustomAuthorizerResponse, error) {
 	slog.Info("validating token")
 
-	tokenString := request.AuthorizationToken
+	tokenString := request.Headers["authorization"]
 
 	if tokenString == "" {
 		slog.Error("no token found in request")
