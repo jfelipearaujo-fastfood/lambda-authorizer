@@ -57,17 +57,17 @@ func validateToken(tokenString string) (bool, error) {
 	return false, fmt.Errorf("invalid token")
 }
 
-func generatePolicy(principalId, effect, resource string) events.APIGatewayCustomAuthorizerResponse {
+func generatePolicy(principalId, effect string) events.APIGatewayCustomAuthorizerResponse {
 	authResponse := events.APIGatewayCustomAuthorizerResponse{PrincipalID: principalId}
 
-	if effect != "" && resource != "" {
+	if effect != "" {
 		authResponse.PolicyDocument = events.APIGatewayCustomAuthorizerPolicy{
 			Version: "2012-10-17",
 			Statement: []events.IAMPolicyStatement{
 				{
 					Action:   []string{"execute-api:Invoke"},
 					Effect:   effect,
-					Resource: []string{resource},
+					Resource: []string{"*"},
 				},
 			},
 		}
@@ -77,7 +77,7 @@ func generatePolicy(principalId, effect, resource string) events.APIGatewayCusto
 }
 
 func handleRequest(ctx context.Context, request events.APIGatewayCustomAuthorizerRequestTypeRequest) (events.APIGatewayCustomAuthorizerResponse, error) {
-	slog.Info("validating token", "request", request)
+	slog.Info("validating token")
 
 	tokenString := request.Headers["authorization"]
 
@@ -97,8 +97,8 @@ func handleRequest(ctx context.Context, request events.APIGatewayCustomAuthorize
 	}
 
 	if isValid {
-		slog.Info("token is valid")
-		return generatePolicy("user", "Allow", request.MethodArn), nil
+		slog.Info("token is valid", "arn", request.MethodArn)
+		return generatePolicy("user", "Allow"), nil
 	}
 
 	slog.Error("token is not valid")
