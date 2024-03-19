@@ -77,7 +77,7 @@ func generatePolicy(principalId, effect, resource string) events.APIGatewayCusto
 }
 
 func handleRequest(ctx context.Context, request events.APIGatewayCustomAuthorizerRequestTypeRequest) (events.APIGatewayCustomAuthorizerResponse, error) {
-	slog.Info("validating token")
+	slog.Info("validating token", "request", request)
 
 	tokenString := request.Headers["authorization"]
 
