@@ -1,5 +1,7 @@
 # Fast-Food Lambda Authorizer
 
+This project its responsible to validate the token and check if the user has the right permissions to access the API Gateway.
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Requirements
