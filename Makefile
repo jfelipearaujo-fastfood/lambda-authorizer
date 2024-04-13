@@ -50,3 +50,11 @@ destroy:
 gen-tf-docs:
 	@echo "Generating Terraform Docs..."
 	@terraform-docs markdown table terraform
+
+test:
+	@echo "Running tests..."
+	@go test ./src/... -v
+
+test-bdd:
+	@echo "Running BDD tests..."
+	@go test ./tests/... -test.v -test.run ^TestFeatures$

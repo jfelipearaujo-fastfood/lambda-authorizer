@@ -1,18 +1,16 @@
-name: unit-tests
+name: tests
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - "**.go"
+      - "**.feature"
 
 jobs:
   test:
-    name: Unit Test & Analysis
+    name: Tests & Analysis
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,8 +20,11 @@ jobs:
         with:
           go-version: "1.21.3"
 
-      - name: Unit Test
-        run: go test -coverprofile=./cov.out ./...
+      - name: Run Unit Tests
+        run: go test -coverprofile=./cov.out ./src/...
+
+      - name: Run BDD Tests
+        run: go test ./tests/... -test.v -test.run ^TestFeatures$
 
       - name: Run Gosec Security Scanner
         uses: securego/gosec@master

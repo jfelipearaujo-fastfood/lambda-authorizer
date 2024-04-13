@@ -1,4 +1,4 @@
-package main
+package handler
 
 import (
 	"context"
@@ -79,7 +79,7 @@ func Test_getTokenFromRequestHeaders(t *testing.T) {
 	}
 }
 
-func Test_handleRequest(t *testing.T) {
+func Test_HandleRequest(t *testing.T) {
 	type args struct {
 		ctx     context.Context
 		request events.APIGatewayCustomAuthorizerRequestTypeRequest
@@ -163,7 +163,7 @@ func Test_handleRequest(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Setenv("SIGN_KEY", "key")
 
-			got, err := handleRequest(tt.args.ctx, tt.args.request)
+			got, err := HandleRequest(tt.args.ctx, tt.args.request)
 			if err != nil && tt.wantErr == nil || !errors.Is(err, tt.wantErr) {
 				t.Errorf("handleRequest() error = %v, wantErr %v", err, tt.wantErr)
 				return
