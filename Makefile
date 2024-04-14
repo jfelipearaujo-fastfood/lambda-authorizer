@@ -51,6 +51,10 @@ gen-tf-docs:
 	@echo "Generating Terraform Docs..."
 	@terraform-docs markdown table terraform
 
+gen-scaffold-bdd:
+	@echo "Generating BDD scaffold..."
+	@godog ./tests/features
+
 test:
 	@echo "Running tests..."
 	@go test ./src/... -v
