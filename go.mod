@@ -1,4 +1,4 @@
-module github.com/jsfelipearaujo/lambda-authorizer
+module github.com/jfelipearaujo-org/lambda-authorizer
 
 go 1.21.3
 

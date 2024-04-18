@@ -8,9 +8,9 @@ zip:
 
 upload:
 	@echo "Creating folder..."
-	@aws s3api put-object --bucket jsfelipearaujo --key "migrations/" > /dev/null
+	@aws s3api put-object --bucket jfelipearaujo-org --key "migrations/" > /dev/null
 	@echo "Uploading..."
-	@aws s3 cp scripts/ s3://jsfelipearaujo/migrations --recursive
+	@aws s3 cp scripts/ s3://jfelipearaujo-org/migrations --recursive
 
 init:
 	@echo "Initializing..."
@@ -57,8 +57,8 @@ gen-scaffold-bdd:
 
 test:
 	@echo "Running tests..."
-	@go test ./src/... -v
+	@go test -count=1 ./src/... -v
 
 test-bdd:
 	@echo "Running BDD tests..."
-	@go test ./tests/... -test.v -test.run ^TestFeatures$
+	@go test -count=1 ./tests/... -test.v -test.run ^TestFeatures$

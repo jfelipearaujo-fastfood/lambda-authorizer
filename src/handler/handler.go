@@ -8,8 +8,8 @@ import (
 	"log/slog"
 
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/jsfelipearaujo/lambda-authorizer/src/policy"
-	"github.com/jsfelipearaujo/lambda-authorizer/src/token"
+	"github.com/jfelipearaujo-org/lambda-authorizer/src/policy"
+	"github.com/jfelipearaujo-org/lambda-authorizer/src/token"
 )
 
 func init() {
