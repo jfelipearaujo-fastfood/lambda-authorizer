@@ -13,7 +13,7 @@ import (
 	"github.com/cucumber/godog"
 	"github.com/cucumber/godog/colors"
 	"github.com/golang-jwt/jwt"
-	"github.com/jsfelipearaujo/lambda-authorizer/src/handler"
+	"github.com/jfelipearaujo-org/lambda-authorizer/src/handler"
 )
 
 var opts = godog.Options{
