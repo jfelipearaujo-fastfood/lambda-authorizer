@@ -7,7 +7,7 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-func generateToken(t *testing.T,
+func generateToken(
 	method jwt.SigningMethod,
 	signingKey string,
 	claims jwt.MapClaims,
@@ -108,7 +108,7 @@ func TestValidator(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Setenv("SIGN_KEY", tt.args.signingKey)
 
-			tokenString, err := generateToken(t, tt.args.method, tt.args.signingKey, tt.args.claims)
+			tokenString, err := generateToken(tt.args.method, tt.args.signingKey, tt.args.claims)
 			if err != nil {
 				t.Errorf("generateToken() error = %v", err)
 				return

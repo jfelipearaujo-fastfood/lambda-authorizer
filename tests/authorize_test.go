@@ -13,7 +13,7 @@ import (
 	"github.com/cucumber/godog"
 	"github.com/cucumber/godog/colors"
 	"github.com/golang-jwt/jwt"
-	"github.com/jfelipearaujo-org/lambda-authorizer/src/handler"
+	"github.com/jfelipearaujo-org/lambda-authorizer/internal/handler"
 )
 
 var opts = godog.Options{
@@ -46,21 +46,6 @@ func TestFeatures(t *testing.T) {
 	if status != 0 {
 		t.Fatalf("zero status code expected, %d received", status)
 	}
-}
-
-func generateToken(t *testing.T,
-	method jwt.SigningMethod,
-	signingKey string,
-	claims jwt.MapClaims,
-) string {
-	token := jwt.NewWithClaims(method, claims)
-
-	tokenString, err := token.SignedString([]byte(signingKey))
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	return tokenString
 }
 
 type tokenCtxKey struct{}
