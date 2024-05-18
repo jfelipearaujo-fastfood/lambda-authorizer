@@ -1,10 +1,8 @@
 package main
 
 import (
-	_ "embed"
-
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/jfelipearaujo-org/lambda-authorizer/src/handler"
+	"github.com/jfelipearaujo-org/lambda-authorizer/internal/handler"
 )
 
 func main() {

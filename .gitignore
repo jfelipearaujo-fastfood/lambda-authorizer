@@ -46,5 +46,9 @@ terraform.rc
 # Ignore Python virtual environment
 .venv
 
-# Local env
+# env file
+.env
 local.env
+
+# coverage
+coverage.out
