@@ -12,10 +12,10 @@ module "authorizer" {
   source = "./modules/authorizer"
 
   lambda_name = "authorizer"
+  vpc_name    = var.vpc_name
 
   sign_key = module.secret.sign_key
 
-  private_subnets   = var.private_subnets
   security_group_id = module.database.security_group_id
 
   depends_on = [
