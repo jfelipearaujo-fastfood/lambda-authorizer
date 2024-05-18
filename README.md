@@ -1,4 +1,4 @@
-# Fast-Food Lambda Authorizer
+# Lambda Authorizer
 
 This project its responsible to validate the token and check if the user has the right permissions to access the API Gateway.
 
