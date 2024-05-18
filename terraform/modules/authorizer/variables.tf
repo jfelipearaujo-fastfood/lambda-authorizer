@@ -3,6 +3,11 @@ variable "lambda_name" {
   description = "The name of the lambda function"
 }
 
+variable "vpc_name" {
+  type        = string
+  description = "The name of the VPC"
+}
+
 variable "sign_key" {
   type        = string
   sensitive   = true
@@ -12,9 +17,4 @@ variable "sign_key" {
 variable "security_group_id" {
   type        = string
   description = "The ID of the security group"
-}
-
-variable "private_subnets" {
-  type        = list(string)
-  description = "The IDs of the private subnets"
 }

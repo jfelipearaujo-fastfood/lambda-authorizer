@@ -12,18 +12,8 @@ variable "region" {
   default     = "us-east-1"
 }
 
-variable "vpc_id" {
+variable "vpc_name" {
   type        = string
-  description = "The ID of the VPC"
-}
-
-variable "vpc_cidr_block" {
-  type        = string
-  description = "The CIDR block of the VPC"
-  default     = "10.0.0.0/16"
-}
-
-variable "private_subnets" {
-  type        = list(string)
-  description = "The IDs of the private subnets"
+  description = "The name of the VPC"
+  default     = "vpc-fastfood"
 }
